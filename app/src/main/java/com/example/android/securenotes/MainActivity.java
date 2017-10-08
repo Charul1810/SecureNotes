@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.android.securenotes.R.id.fab;
@@ -32,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
     private boolean isOpen = false;
     ListView list;
     int position;
+    private ArrayList<Integer> selectedPositions;
+    private boolean toolbar_hidden;
+    private TextView view_id;
+    private TextView view_title;
+    private TextView view_note;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +56,13 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_item);
         db = new DatabaseHandler(this);
         cdl = (CoordinatorLayout) findViewById(R.id.actioncontainer);
+        view_id=(TextView) findViewById(R.id.view_id);
+        view_title=(TextView) findViewById(R.id.view_title);
+        view_note=(TextView) findViewById(R.id.view_note);
 
+
+
+        //toolbar_hidden=(ActionBar) findViewById(R.id.toolbar_hidden);
         load();
 
 
@@ -63,12 +79,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),ViewNote.class));
+               // setContentView(R.layout.activity_view_note);
+
+
+              startActivity(new Intent(getApplicationContext(),ViewNote.class));
                 }
         });
 
+//        view_id.setText(mylist.get(i).get_id() + "");
+//        view_title.setText(mylist.get(i).get_title());
+//        view_note.setText(mylist.get(i).get_note());
 
+//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getApplicationContext(),"delete",Toast.LENGTH_SHORT).show();
+//                return true;
+//
+//            }
+//        });
     }
+//    @Override
+//    public boolean onContextItemSelected(MenuItem item) {
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        switch (item.getItemId()) {
+//            case R.id.action_delete:
+//                //deleteNote(info.id);
+//                setVisible(true);
+//                return true;
+//            default:
+//                return super.onContextItemSelected(item);
+//        }
+//    }
 
 
     @Override
@@ -95,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void load() {
 
-        List<note> list = db.getAllNotes();
+        List<note>list = db.getAllNotes();
         mylist = list;
         adapter = new AppAdapter();
         this.listView.setAdapter(adapter);
@@ -136,32 +178,43 @@ public class MainActivity extends AppCompatActivity {
             holder.tv_num.setText(mylist.get(position).get_note());
 //This code is working but temporary disables to try something
 
-           /* holder.row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-     Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), add_new_note.class));
-                   // note_id.setText(mylist.get(position).get_id() + "");
-                    title.setText(mylist.get(position).get_title());
-                    note.setText(mylist.get(position).get_note());
+//            holder.row.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//            Toast.makeText(getApplicationContext(),"hello",Toast.LENGTH_SHORT).show();
+//
+//
+//                   setContentView(R.layout.activity_view_note);
+//
+//                }
+//            });
 
-                }
-            });*/
+
 
             return convertView;
+
         }
+
 
         class ViewHolder {
             TextView tv_id;
             TextView tv_name;
             TextView tv_num;
             LinearLayout row;
+//            TextView view_id;
+//            TextView view_title;
+//            TextView view_note;
+
 
             public ViewHolder(View view) {
                 tv_id = (TextView) view.findViewById(R.id.note_id);
                 tv_name = (TextView) view.findViewById(R.id.title);
                 tv_num = (TextView) view.findViewById(R.id.note);
                 row = (LinearLayout) view.findViewById(R.id.row);
+//                view_id=(TextView) findViewById(R.id.view_id);
+//                view_title=(TextView) findViewById(R.id.view_title);
+//                view_note=(TextView) findViewById(R.id.view_note);
+
                 view.setTag(this);
             }
         }
