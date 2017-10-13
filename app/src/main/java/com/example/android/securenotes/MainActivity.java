@@ -5,17 +5,20 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,6 +26,7 @@ import static com.example.android.securenotes.R.id.fab;
 
 public class MainActivity extends AppCompatActivity {
     EditText note_id, title, note;
+
     ListView listView;
     List<note> mylist;
     DatabaseHandler db;
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView view_id;
     TextView view_title;
     TextView view_note;
-
+    ActionMode actionMode;
 
 
 
@@ -54,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         view_note = (TextView) findViewById(R.id.view_note);
 
 
-        //toolbar_hidden=(ActionBar) findViewById(R.id.toolbar_hidden);
         load();
 
 
@@ -62,50 +65,55 @@ public class MainActivity extends AppCompatActivity {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //viewMenu();
+
                 startActivity(new Intent(getApplicationContext(), add_new_note.class));
             }
         });
 
-//    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                    Toast.makeText(getApplicationContext(), "hello", Toast.LENGTH_SHORT).show();
-//               // setContentView(R.layout.activity_view_note);
-//
-//
-//              startActivity(new Intent(getApplicationContext(),ViewNote.class));
-//                }
-//        });
 
-//        view_id.setText(mylist.get(i).get_id() + "");
-//        view_title.setText(mylist.get(i).get_title());
-//        view_note.setText(mylist.get(i).get_note());
 
-//        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+//        listView.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
-//            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getApplicationContext(),"delete",Toast.LENGTH_SHORT).show();
-//                return true;
+//            public boolean onLongClick(View view) {
 //
+//                actionMode = MainActivity.this.startSupportActionMode(new ActionBarCallback());
+//                actionMode.finish();
+//                return false;
 //            }
+//
 //        });
+
+
     }
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item) {
-//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-//        switch (item.getItemId()) {
-//            case R.id.action_delete:
-//                //deleteNote(info.id);
-//                setVisible(true);
-//                return true;
-//            default:
-//                return super.onContextItemSelected(item);
+
+//    class ActionBarCallback implements ActionMode.Callback {
+//
+//
+//        @Override
+//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//
+//            actionMode.getMenuInflater().inflate(R.menu.contextual_menu,menu);
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//
+//            actionMode.setTitle("My Action");
+//            return false;
+//        }
+//
+//        @Override
+//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//            return false;
+//        }
+//
+//        @Override
+//        public void onDestroyActionMode(ActionMode mode) {
+//
 //        }
 //    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -133,10 +141,42 @@ public class MainActivity extends AppCompatActivity {
         mylist = list;
         adapter = new AppAdapter();
         this.listView.setAdapter(adapter);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(android.view.ActionMode actionMode, int i, long l, boolean b) {
 
-        Toast.makeText(getApplicationContext(), mylist.size() + "", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public boolean onCreateActionMode(android.view.ActionMode actionMode, Menu menu) {
+                MenuInflater menuInflater=getMenuInflater();
+                menuInflater.inflate(R.menu.contextual_menu,menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(android.view.ActionMode actionMode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(android.view.ActionMode actionMode, MenuItem menuItem) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(android.view.ActionMode actionMode) {
+
+            }
+        });
+
+//        Toast.makeText(getApplicationContext(), mylist.size() + "", Toast.LENGTH_LONG).show();
 
     }
+
+
+
 
     class AppAdapter extends BaseAdapter {
 
@@ -168,26 +208,18 @@ public class MainActivity extends AppCompatActivity {
             holder.tv_id.setText(mylist.get(position).get_id() + "");
             holder.tv_name.setText(mylist.get(position).get_title());
             holder.tv_num.setText(mylist.get(position).get_note());
-//This code is working but temporary disables to try something
+
+            //  This code is working but temporary disables to try something
 
             holder.row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(),mylist.get(position).get_note(), Toast.LENGTH_SHORT).show();
 
-//                    view_id.setText(mylist.get(position).get_id() + "");
-//                    view_title.setText(mylist.get(position).get_title());
-//                    view_note.setText(mylist.get(position).get_note());
-
-
-                    Intent i=new Intent(getApplicationContext(),ViewNote.class);
-                    Bundle b=new Bundle();
-                    b.putInt("id",mylist.get(position).get_id());
-                    b.putString("title",mylist.get(position).get_title().toString());
-                    b.putString("note",mylist.get(position).get_note().toString());
-                    i.putExtra("peronal",b);
-                   startActivity(i);
-
+                    Intent i = new Intent(getApplicationContext(), ViewNote.class);
+                    i.putExtra("id", mylist.get(position).get_id() + "");
+                    i.putExtra("title", mylist.get(position).get_title().toString());
+                    i.putExtra("note", mylist.get(position).get_note().toString());
+                    startActivity(i);
                 }
             });
 
@@ -202,9 +234,6 @@ public class MainActivity extends AppCompatActivity {
             TextView tv_name;
             TextView tv_num;
             LinearLayout row;
-//            TextView view_id;
-//            TextView view_title;
-//            TextView view_note;
 
 
             public ViewHolder(View view) {
@@ -212,10 +241,6 @@ public class MainActivity extends AppCompatActivity {
                 tv_name = (TextView) view.findViewById(R.id.title);
                 tv_num = (TextView) view.findViewById(R.id.note);
                 row = (LinearLayout) view.findViewById(R.id.row);
-//                view_id=(TextView) findViewById(R.id.view_id);
-//                view_title=(TextView) findViewById(R.id.view_title);
-//                view_note=(TextView) findViewById(R.id.view_note);
-
                 view.setTag(this);
             }
         }

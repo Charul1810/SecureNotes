@@ -38,16 +38,16 @@ public class add_new_note extends AppCompatActivity {
            }
        });
 
-        /*add_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                db.addNote(new note(title.getText().toString(), note.getText().toString()));
-                //Toast.makeText(getApplicationContext(), "note saved successfully!", Toast.LENGTH_LONG).show();
-                clear();
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-            }
-        });*/
+//        add_note.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                db.addNote(new note(title.getText().toString(), note.getText().toString()));
+//                //Toast.makeText(getApplicationContext(), "note saved successfully!", Toast.LENGTH_LONG).show();
+//                clear();
+//                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+//            }
+//        });
 
 
     }
