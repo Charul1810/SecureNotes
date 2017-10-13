@@ -17,7 +17,7 @@ public class ViewNote extends AppCompatActivity {
     TextView view_title;
     TextView view_note;
     List<note> mylist;
-    note getnote = new note();
+
 
 
     @Override
@@ -30,10 +30,9 @@ public class ViewNote extends AppCompatActivity {
         view_title = (TextView) findViewById(R.id.view_title);
         view_note = (TextView) findViewById(R.id.view_note);
 
-        Intent i = getIntent();
 
-        Bundle b = i.getBundleExtra("personal");
-        view_id.setText(b.getInt("id", 1));
+        Bundle b = getIntent().getExtras();
+        view_id.setText(b.getString("id", "1"));
         view_title.setText(b.getString("title"));
         view_note.setText(b.getString("note"));
 
