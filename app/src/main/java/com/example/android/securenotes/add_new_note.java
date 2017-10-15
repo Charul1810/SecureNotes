@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import static com.example.android.securenotes.R.id.fab1;
+
 public class add_new_note extends AppCompatActivity {
 
     EditText note_id,title,note;
@@ -27,13 +29,15 @@ public class add_new_note extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_item);
         db = new DatabaseHandler(this);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab1);
-       fab.setOnClickListener(new View.OnClickListener() {
+       final FloatingActionButton fab2 = (FloatingActionButton) findViewById(fab1);
+       fab2.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               db.addNote(new note(title.getText().toString(), note.getText().toString()));
-               //Toast.makeText(getApplicationContext(), "note saved successfully!", Toast.LENGTH_LONG).show();
-               clear();
+
+                   db.addNote(new note(title.getText().toString(), note.getText().toString()));
+                   //Toast.makeText(getApplicationContext(), "note saved successfully!", Toast.LENGTH_LONG).show();
+                   clear();
+
                startActivity(new Intent(getApplicationContext(),MainActivity.class));
            }
        });

@@ -15,5 +15,11 @@
         android:visible="false"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/grid"
+        android:icon="@drawable/ic_view_module_black_24dp"
+        app:showAsAction="always"
+        android:title="Grid"
+        android:visible="true"></item>
 
 </menu>
