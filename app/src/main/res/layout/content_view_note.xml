@@ -16,10 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:hint="id"
-        android:textSize="20sp"
-        android:visibility="gone"
         android:textColor="#000000"
-        />
+        android:textSize="20sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/view_title"
@@ -27,16 +26,22 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:hint="Title"
-        android:textSize="20sp"
         android:textColor="#000000"
-        />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/view_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Note"
-        android:textSize="20sp"
         android:textColor="#000000"
-       />
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/view_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Created at :"
+        />
 </LinearLayout>

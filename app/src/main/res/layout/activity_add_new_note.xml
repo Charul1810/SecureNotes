@@ -16,6 +16,11 @@
     android:layout_height="wrap_content"
     android:visibility="gone"/>
     <EditText
+        android:id="@+id/cre_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:hint="@string/title"

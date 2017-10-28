@@ -17,6 +17,7 @@ public class add_new_note extends AppCompatActivity {
     Button add_note;
     ListView listView;
     DatabaseHandler db;
+    EditText  time;
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,16 +27,20 @@ public class add_new_note extends AppCompatActivity {
        note_id = (EditText) findViewById(R.id.note_id);
         title = (EditText) findViewById(R.id.title);
         note = (EditText) findViewById(R.id.note);
+       time =(EditText) findViewById(R.id.cre_time);
+
         listView = (ListView) findViewById(R.id.list_item);
         db = new DatabaseHandler(this);
 
-       final FloatingActionButton fab2 = (FloatingActionButton) findViewById(fab1);
+       FloatingActionButton fab2 = (FloatingActionButton) findViewById(fab1);
        fab2.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
 
-                   db.addNote(new note(title.getText().toString(), note.getText().toString()));
+                   db.addNote(new note(title.getText().toString(), note.getText().toString(),time.toString()));
+
                    //Toast.makeText(getApplicationContext(), "note saved successfully!", Toast.LENGTH_LONG).show();
+//               db.updateNote(new note(Integer.parseInt(note_id.getText().toString()), title.getText().toString(), note.getText().toString()));
                    clear();
 
                startActivity(new Intent(getApplicationContext(),MainActivity.class));
