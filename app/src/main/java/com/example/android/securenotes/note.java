@@ -65,17 +65,36 @@ public class note {
     }
 
     public void set_title(String _title) {
-        this._title = _title;
+        if (_title.trim().equals("")||_title.isEmpty()) {
+            this._title = null;
+        }
+        else {
+            this._title=_title;
+        }
     }
 
     public String get_note() {
         return _note;
     }
 
-    public void set_note(String _note) {
-        this._note = _note;
+    public void set_note(String _note)
+    {
+
+        if (_note.trim().equals("")||_note.isEmpty()) {
+            this._note = null;
+        }
+        else {
+            this._note=_note;
+        }
     }
 
+    public String get_time() {
+        return _time;
+    }
+
+    public void set_time(String _time) {
+        this._time = _time;
+    }
 
 
 //    public Date get_time() {

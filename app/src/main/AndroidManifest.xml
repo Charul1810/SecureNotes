@@ -30,7 +30,8 @@
             android:name=".ViewNote"
             android:label="@string/title_activity_view_note"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".update_note"></activity>
+        <activity android:name=".update_note"
+            />
     </application>
 
 </manifest>

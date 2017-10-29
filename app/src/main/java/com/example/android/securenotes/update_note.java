@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -13,7 +12,6 @@ import static com.example.android.securenotes.R.id.fab1;
 
 public class update_note extends AppCompatActivity {
     EditText note_id,title,note;
-    Button add_note;
     ListView listView;
     DatabaseHandler db;
 
@@ -41,6 +39,7 @@ public class update_note extends AppCompatActivity {
                 db.updateNote(new note(Integer.parseInt(note_id.getText().toString()), title.getText().toString(), note.getText().toString()));
 
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
             }
         });
     }

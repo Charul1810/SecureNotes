@@ -18,7 +18,6 @@ public class ViewNote extends AppCompatActivity {
     TextView view_title;
     TextView view_note;
     TextView view_time;
-    TextView time;
     List<note> mylist;
     //private static final DateFormat DATETIME_FORMAT = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
 
@@ -44,8 +43,11 @@ public class ViewNote extends AppCompatActivity {
         view_time.setText(b.getString("time"));
 
 
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab3 = (FloatingActionButton) findViewById(fab);
         fab3.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +59,7 @@ public class ViewNote extends AppCompatActivity {
                 i.putExtra("title",view_title.getText().toString());
                 i.putExtra("note",view_note.getText().toString());
                 startActivity(i);
+                finish();
                 //startActivity(new Intent(getApplicationContext(), add_new_note.class));
 
             }

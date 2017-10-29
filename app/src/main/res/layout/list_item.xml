@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/list_view"
+    android:id="@+id/list_viewrow"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e6e6e6"
@@ -47,15 +47,15 @@
                 android:maxLines="1"
                 android:textSize="20sp"
                 />
-            <!--<TextView-->
-                <!--android:id="@+id/c_time"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:hint="created at"-->
-                <!--android:maxLines="1"-->
-                <!--android:gravity="right"-->
-                <!--android:textSize="12sp"-->
-                <!--/>-->
+            <TextView
+                android:id="@+id/c_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="created at"
+                android:maxLines="1"
+                android:gravity="right"
+                android:textSize="12sp"
+                />
 
 
         </LinearLayout>
