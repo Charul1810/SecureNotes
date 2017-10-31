@@ -58,7 +58,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addNote(note n)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-
         ContentValues values=new ContentValues();
         values.put(KEY_TITLE,n.get_title());
         values.put(KEY_NOTE,n.get_note());
@@ -91,6 +90,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return note list
         return noteList;
     }
+
 
     // Updating single contact
     public int updateNote(note n) {

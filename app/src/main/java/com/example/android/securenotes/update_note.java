@@ -3,6 +3,7 @@ package com.example.android.securenotes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -19,6 +20,10 @@ public class update_note extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_note);
+
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         note_id = (EditText) findViewById(R.id.note_id);
         title = (EditText) findViewById(R.id.title);

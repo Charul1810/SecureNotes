@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,7 +33,7 @@ public class ViewNote extends AppCompatActivity {
         view_id = (TextView) findViewById(R.id.view_id);
         view_title = (TextView) findViewById(R.id.view_title);
         view_note = (TextView) findViewById(R.id.view_note);
-        view_time= (TextView) findViewById(R.id.view_time);
+        view_time = (TextView) findViewById(R.id.view_time);
 
         //time.setText(DATETIME_FORMAT.format(note.getCreatedAt()));
 
@@ -43,6 +45,15 @@ public class ViewNote extends AppCompatActivity {
         view_time.setText(b.getString("time"));
 
 
+//        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.setType("*/*");
+//        //intent.setData(Uri.parse("mailto:"));
+//        //intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+//        intent.putExtra(Intent.EXTRA_SUBJECT, view_title.getText());
+//        //intent.putExtra(Intent.EXTRA_STREAM, priceMessage);
+//        intent.putExtra(Intent.EXTRA_TEXT,view_note.getText());
+//        if (intent.resolveActivity(getPackageManager()) != null) {
+//            startActivity(intent);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,9 +66,9 @@ public class ViewNote extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent i = new Intent(getApplicationContext(), update_note.class);
-                i.putExtra("id",view_id.getText() + "");
-                i.putExtra("title",view_title.getText().toString());
-                i.putExtra("note",view_note.getText().toString());
+                i.putExtra("id", view_id.getText() + "");
+                i.putExtra("title", view_title.getText().toString());
+                i.putExtra("note", view_note.getText().toString());
                 startActivity(i);
                 finish();
                 //startActivity(new Intent(getApplicationContext(), add_new_note.class));
@@ -66,38 +77,44 @@ public class ViewNote extends AppCompatActivity {
         });
 
 
-
     }
 
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.share, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.share) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("*/*");
+            //intent.setData(Uri.parse("mailto:"));
+            //intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+            intent.putExtra(Intent.EXTRA_SUBJECT, view_title.getText());
+            //intent.putExtra(Intent.EXTRA_STREAM, priceMessage);
+            intent.putExtra(Intent.EXTRA_TEXT, view_note.getText());
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+            return true;
+        }
+
 //
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 //
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            Toast.makeText(getApplicationContext(),"Settings selected",Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//        if(id == R.id.con) {
-//            Toast.makeText(getApplicationContext(), "Delete option selected", Toast.LENGTH_SHORT).show();
-////            db.deleteNote(new note(Integer.parseInt(note_id.getText().toString()), title.getText().toString(), note.getText().toString()));
-////            load();
-//
-//            return true;
-//        }
-//
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
 
 }

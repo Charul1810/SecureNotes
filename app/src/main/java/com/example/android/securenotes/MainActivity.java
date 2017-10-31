@@ -23,9 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import static com.example.android.securenotes.R.id.con;
 import static com.example.android.securenotes.R.id.fab;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     List<note> noteList = new ArrayList<note>();
     int count = 0;
     GridView grid;
+    MenuItem sort;
 
 
     @Override
@@ -66,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
         view_title = (TextView) findViewById(R.id.view_title);
         view_note = (TextView) findViewById(R.id.view_note);
         view_time = (TextView) findViewById(R.id.view_time);
-        grid = (GridView) findViewById(R.id.grid);
+        //grid = (GridView) findViewById(R.id.grid);
+        sort = (MenuItem) findViewById(R.id.sort);
+
 
         load();
 
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 //                    return true;
 //            }
 //        });
+
     }
 
 
@@ -141,7 +146,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        CharSequence sorting[]= new CharSequence[]{"By Alphabet","By Date"};
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -153,21 +159,101 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        if (id == R.id.grid) {
-            listView.setVisibility(View.GONE);
-            grid.setVisibility(View.VISIBLE);
+//        if (id == R.id.grid) {
+//            listView.setVisibility(View.GONE);
+//            grid.setVisibility(View.VISIBLE);
+//
+//        }
+        if (id==R.id.sort)
+        {
+//            Toast.makeText(getApplicationContext(),"Sort Selected",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder UnitSelection = new AlertDialog.Builder(this);
+                UnitSelection.setTitle("Select Unit");
+                UnitSelection.setItems(sorting, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(i==0)
+                        {
+                            up();
+                            Toast.makeText(getApplicationContext(),"By alpa",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+//                UnitSelection.setSingleChoiceItems(id, 0, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int item) {
+//                        Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+                AlertDialog alert = UnitSelection.create();
+                alert.show();
 
-        }
-
-        if (id == con) {
-            Toast.makeText(getApplicationContext(), "Delete option selected", Toast.LENGTH_SHORT).show();
-            //  db.deleteNote(new note(Integer.parseInt(note_id.getText().toString()), title.getText().toString(), note.getText().toString()));
-            return true;
         }
 
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void up(){
+
+        Sort("By Alphabet");
+    }
+    private void Sort() {
+
+        Comparator <note> comp=new Comparator<note>() {
+            @Override
+            public int compare(note note, note t1) {
+                int first=Integer.parseInt(note.get_id()+"");
+                int second=Integer.parseInt(note.get_id()+"");
+
+
+
+                return (first > second ?-1 : (first==second? 0:1));
+            }
+
+        };
+
+        Collections.sort(mylist,comp);
+        adapter.notifyDataSetChanged();
+        load();
+    }
+    // set repeat mode from None, Hour, Daily, Monthly, Yearly
+//            private AlertDialog repeatDialog() {
+//                private AlertDialog sortdialog()
+//                {
+//                    final int sort_asc=
+//                    return new AlertDialog.Builder(this)
+//                            .setTitle("Sort")
+//                            .setSingleChoiceItems()
+//                }
+//            final int prevRepeat = mRepeatMode;
+//            return new AlertDialog.Builder(this)
+//                    .setTitle("Repeat")
+//                    .setSingleChoiceItems(REPEAT_MODES, 0, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int i) {
+//                            mRepeatMode = i;
+//                        }
+//                    })
+//                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int i) {
+//                            // set label to selected repeat mode
+//                            mAlarmRepeat.put("subtext", REPEAT_MODES[mRepeatMode]);
+//                            mAdapter.notifyDataSetChanged();
+//                            dialog.dismiss();
+//                        }
+//                    })
+//                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int i) {
+//                            mRepeatMode = prevRepeat;
+//                        }
+//                    })
+//                    .create();
+//        }
+
+
+    //List<note> list = db.getAllNotes();
 
 
     public void load() {
@@ -176,9 +262,55 @@ public class MainActivity extends AppCompatActivity {
         mylist = list;
         adapter = new AppAdapter();
         listView.setAdapter(adapter);
-        Toast.makeText(getApplicationContext(), mylist.size() + "", Toast.LENGTH_LONG).show();
+
+
 
     }
+
+
+    public void Sort(String items){
+
+
+    }
+
+
+//   Collections.sort(myIntegerList, new Comparator<Integer>() {
+//        public int compare(Integer one, Integer other) {
+//            if (one >= other) {
+//                return -1;
+//            } else {
+//                return 1;
+//            }
+//        }
+//    });
+
+
+
+
+    public void setSort () {
+
+
+//        noteList.sort(new Comparator<com.example.android.securenotes.note>() {
+//            @Override
+//            public int compare(note note, note t1) {
+//                return note.toString().compareTo(t1.toString());
+//            }
+//
+//        });
+//        adapter.notifyDataSetChanged();
+//        return noteList;
+        mylist.sort(new Comparator<com.example.android.securenotes.note>() {
+            @Override
+            public int compare(note note, note t1) {
+                return note.toString().compareTo(t1.toString());
+            }
+        });
+        adapter.notifyDataSetChanged();
+
+
+
+    }
+
 
 
     class AppAdapter extends BaseAdapter {
@@ -208,7 +340,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
-
             final ViewHolder holder = (ViewHolder) convertView.getTag();
 
             holder.tv_id.setText(mylist.get(position).get_id() + "");
@@ -233,7 +364,7 @@ public class MainActivity extends AppCompatActivity {
                     i.putExtra("id", mylist.get(position).get_id() + "");
                     i.putExtra("title", mylist.get(position).get_title().toString());
                     i.putExtra("note", mylist.get(position).get_note().toString());
-                    i.putExtra("time",mylist.get(position).get_time().toString());
+                    i.putExtra("time", mylist.get(position).get_time().toString());
                     startActivity(i);
 
                 }
@@ -257,11 +388,11 @@ public class MainActivity extends AppCompatActivity {
 
                     // Setting Positive "Yes" Button
                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int which) {
+                        public void onClick(DialogInterface dialog, int which) {
 
                             // Write your code here to invoke YES event
                             //Toast.makeText(getApplicationContext(), "You clicked on YES", Toast.LENGTH_SHORT).show();
-                            db.deleteNote(new note(mylist.get(position).get_id(),mylist.get(position).get_title(), mylist.get(position).get_note()));
+                            db.deleteNote(new note(mylist.get(position).get_id(), mylist.get(position).get_title(), mylist.get(position).get_note()));
                             load();
                             Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
 
@@ -272,7 +403,7 @@ public class MainActivity extends AppCompatActivity {
                     alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // Write your code here to invoke NO event
-                            Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(getApplicationContext(), "You clicked on NO", Toast.LENGTH_SHORT).show();
                             dialog.cancel();
                         }
                     });
@@ -306,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
                 tv_id = (TextView) view.findViewById(R.id.note_id);
                 tv_name = (TextView) view.findViewById(R.id.title);
                 tv_num = (TextView) view.findViewById(R.id.note);
-                tv_time=(TextView) view.findViewById(R.id.c_time);
+                tv_time = (TextView) view.findViewById(R.id.c_time);
                 row = (LinearLayout) view.findViewById(R.id.list_viewrow);
                 view.setTag(this);
             }
