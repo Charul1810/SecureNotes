@@ -10,6 +10,15 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/search"
+        android:title="Search"
+        android:contentDescription="Search"
+        app:showAsAction="always|collapseActionView"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_search_black_24dp"
+        />
+
+    <item
         android:id="@+id/sort"
         android:title="Sort"
         app:showAsAction="always"

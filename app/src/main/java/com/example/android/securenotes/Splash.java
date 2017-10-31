@@ -32,7 +32,7 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 onLoadingDataEnded();
             }
-        }, 1000 + random.nextInt(2000));
+        }, 1000 + random.nextInt(2500));
     }
     private void onLoadingDataEnded()
     {

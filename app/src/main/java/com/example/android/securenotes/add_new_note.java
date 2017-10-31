@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,13 +39,13 @@ public class add_new_note extends AppCompatActivity {
 
 
         note.addTextChangedListener(new TextWatcher() {
+
                 public void afterTextChanged(Editable s) {
+
                    if (title.getText().toString().isEmpty()) {
                     String c = s.toString(); // read Content
                     ((EditText) findViewById(title.getId())).setText(c); // copy to #2
-               }
-
-
+                    }
                 }
 
 
@@ -61,59 +62,38 @@ public class add_new_note extends AppCompatActivity {
 
 
 
-//        if(TextUtils.isEmpty(title.getText().toString())) {
-//
 
-//
-//        }
-
-
-
-
-
-
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        final String formattedDate = df.format(c.getTime());
 
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(fab1);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(title.getText().toString().trim().length()>0 && note.getText().toString().trim().length()>0) {
+                    add();
+//                    db.addNote(new note(title.getText().toString(), note.getText().toString(), formattedDate));
 
-                db.addNote(new note(title.getText().toString(), note.getText().toString(), formattedDate));
+                    //Toast.makeText(getApplicationContext(), formattedDate, Toast.LENGTH_LONG).show();
+                    clear();
 
-                //Toast.makeText(getApplicationContext(), formattedDate, Toast.LENGTH_LONG).show();
-                clear();
-
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
-
+//                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    finish();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"Please add note!! ",Toast.LENGTH_SHORT).show();
+                }
             }
 
         });
-
-
-
-//       private void validateNoteForm() {
-//           StringBuilder message = null;
-//           if (Strings.isNullOrBlank(noteTitleText.getText().toString())) {
-//               message = new StringBuilder().append(getString(R.string.title_required));
-//           }
-//           if (Strings.isNullOrBlank(noteContentText.getText().toString())) {
-//               if (message == null) message = new StringBuilder().append(getString(R.string.content_required));
-//               else message.append("\n").append(getString(R.string.content_required));
-//           }
-//           if (message != null) {
-//               Toast.makeText(getApplicationContext(),
-//                       message,
-//                       Toast.LENGTH_LONG)
-//                       .show();
-//           }
-//       }
-
     }
 
+    public void add(){
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final String formattedDate = df.format(c.getTime());
+
+        db.addNote(new note(title.getText().toString(), note.getText().toString(), formattedDate));
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
 
 
     public void clear() {
@@ -124,36 +104,18 @@ public class add_new_note extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        note_id = (EditText) findViewById(R.id.note_id);
-//        title = (EditText) findViewById(R.id.title);
-//        note = (EditText) findViewById(R.id.note);
-//        time = (EditText) findViewById(R.id.cre_time);
-//
-//        listView = (ListView) findViewById(R.id.list_item);
-//        db = new DatabaseHandler(this);
-//
-//        Calendar c = Calendar.getInstance();
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        final String formattedDate = df.format(c.getTime());
-//
-//        FloatingActionButton fab2 = (FloatingActionButton) findViewById(fab1);
-//        fab2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                db.addNote(new note(title.getText().toString(), note.getText().toString(), formattedDate));
-//
-//                Toast.makeText(getApplicationContext(), formattedDate, Toast.LENGTH_LONG).show();
-//                clear();
-//
-//                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//            }
-//
-//        });
+        if(title.getText().toString().trim().length()>0 && note.getText().toString().trim().length()>0) {
+
+            add();
+            Toast.makeText(getApplicationContext(), "Note saved", Toast.LENGTH_SHORT).show();
+        }
+        else {
+       //     Toast.makeText(getApplicationContext(), "Back pressed", Toast.LENGTH_SHORT).show();
 
 
-        finish();
+        }
         super.onBackPressed();
 
     }
+
 }

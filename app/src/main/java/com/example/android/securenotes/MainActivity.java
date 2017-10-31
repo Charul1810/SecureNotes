@@ -3,12 +3,9 @@ package com.example.android.securenotes;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,13 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -31,23 +26,16 @@ import static com.example.android.securenotes.R.id.fab;
 
 public class MainActivity extends AppCompatActivity {
     EditText note_id, title, note;
-    CardView cardView;
     ListView listView;
     List<note> mylist;
     DatabaseHandler db;
     AppAdapter adapter;
-    private CoordinatorLayout cdl;
-    private boolean isOpen = false;
     TextView view_id;
     TextView view_title;
     TextView view_note;
     TextView view_time;
-    TextView txtid, txttitle, txtnote;
-    ActionMode actionMode;
-    List<note> noteList = new ArrayList<note>();
-    int count = 0;
-    GridView grid;
     MenuItem sort;
+    TextView Empty_List;
 
 
     @Override
@@ -63,12 +51,11 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list_item);
         registerForContextMenu(listView);
         db = new DatabaseHandler(this);
-        cdl = (CoordinatorLayout) findViewById(R.id.actioncontainer);
         view_id = (TextView) findViewById(R.id.view_id);
         view_title = (TextView) findViewById(R.id.view_title);
         view_note = (TextView) findViewById(R.id.view_note);
         view_time = (TextView) findViewById(R.id.view_time);
-        //grid = (GridView) findViewById(R.id.grid);
+        Empty_List=(TextView) findViewById(R.id.empty_list);
         sort = (MenuItem) findViewById(R.id.sort);
 
 
@@ -80,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 startActivity(new Intent(getApplicationContext(), add_new_note.class));
+                finish();
             }
         });
 
@@ -147,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        CharSequence sorting[]= new CharSequence[]{"By Alphabet","By Date"};
+        CharSequence sorting[]= new CharSequence[]{"Alphabet","Date"};
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -155,35 +143,61 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Toast.makeText(getApplicationContext(), "Settings selected", Toast.LENGTH_SHORT).show();
-            return true;
+
+            AlertDialog alertDialog = new AlertDialog.Builder(
+                    MainActivity.this).create();
+
+            // Setting Dialog Title
+            alertDialog.setTitle("Info");
+
+            // Setting Dialog Message
+            alertDialog.setMessage("Simple Notes created by Charul Dalvi & Niharika Singh.");
+
+            // Setting Icon to Dialog
+            alertDialog.setIcon(R.mipmap.ic_launcher_notes_round);
+
+            // Setting OK Button
+//            alertDialog.setButton(id,"OK", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int which) {
+//                    // Write your code here to execute after dialog closed
+//                    Toast.makeText(getApplicationContext(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+
+            // Showing Alert Message
+            alertDialog.show();
+
         }
 
-//        if (id == R.id.grid) {
-//            listView.setVisibility(View.GONE);
-//            grid.setVisibility(View.VISIBLE);
-//
-//        }
         if (id==R.id.sort)
         {
 //            Toast.makeText(getApplicationContext(),"Sort Selected",Toast.LENGTH_SHORT).show();
                 AlertDialog.Builder UnitSelection = new AlertDialog.Builder(this);
-                UnitSelection.setTitle("Select Unit");
+               UnitSelection.setTitle("Sort By");
                 UnitSelection.setItems(sorting, new DialogInterface.OnClickListener() {
+
+
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if(i==0)
                         {
-                            up();
-                            Toast.makeText(getApplicationContext(),"By alpa",Toast.LENGTH_SHORT).show();
+                              mylist.sort(new Comparator<com.example.android.securenotes.note>() {
+                                @Override
+                                public int compare(note note, note t1) {
+                                    return note.get_title().toString().compareTo(t1.get_title().toString());
+                                }
+                            });
+                            adapter.notifyDataSetChanged();
+                            //Toast.makeText(getApplicationContext(),"By alpa",Toast.LENGTH_SHORT).show();
+                        }
+
+                        if(i==1)
+                        {
+                           load();
+                            //Toast.makeText(getApplicationContext(),"By alpa",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
-//                UnitSelection.setSingleChoiceItems(id, 0, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int item) {
-//                        Toast.makeText(getApplicationContext(), "Hello", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
                 AlertDialog alert = UnitSelection.create();
                 alert.show();
 
@@ -193,123 +207,33 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void up(){
-
-        Sort("By Alphabet");
-    }
-    private void Sort() {
-
-        Comparator <note> comp=new Comparator<note>() {
-            @Override
-            public int compare(note note, note t1) {
-                int first=Integer.parseInt(note.get_id()+"");
-                int second=Integer.parseInt(note.get_id()+"");
-
-
-
-                return (first > second ?-1 : (first==second? 0:1));
-            }
-
-        };
-
-        Collections.sort(mylist,comp);
-        adapter.notifyDataSetChanged();
-        load();
-    }
-    // set repeat mode from None, Hour, Daily, Monthly, Yearly
-//            private AlertDialog repeatDialog() {
-//                private AlertDialog sortdialog()
-//                {
-//                    final int sort_asc=
-//                    return new AlertDialog.Builder(this)
-//                            .setTitle("Sort")
-//                            .setSingleChoiceItems()
-//                }
-//            final int prevRepeat = mRepeatMode;
-//            return new AlertDialog.Builder(this)
-//                    .setTitle("Repeat")
-//                    .setSingleChoiceItems(REPEAT_MODES, 0, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int i) {
-//                            mRepeatMode = i;
-//                        }
-//                    })
-//                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int i) {
-//                            // set label to selected repeat mode
-//                            mAlarmRepeat.put("subtext", REPEAT_MODES[mRepeatMode]);
-//                            mAdapter.notifyDataSetChanged();
-//                            dialog.dismiss();
-//                        }
-//                    })
-//                    .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int i) {
-//                            mRepeatMode = prevRepeat;
-//                        }
-//                    })
-//                    .create();
-//        }
-
-
-    //List<note> list = db.getAllNotes();
 
 
     public void load() {
+        try {
+            List<note> list = db.getAllNotes();
+            mylist = list;
+            adapter = new AppAdapter();
+            listView.setAdapter(adapter);
+            Collections.reverse(mylist);
+            updateView();
+        }
+        catch (Exception e){
 
-        List<note> list = db.getAllNotes();
-        mylist = list;
-        adapter = new AppAdapter();
-        listView.setAdapter(adapter);
-
-
-
+        }
+    }
+    private void updateView() {
+        if (mylist.isEmpty()) { // Mostrar mensaje
+            listView.setVisibility(View.GONE);
+            Empty_List.setVisibility(View.VISIBLE);
+        } else { // Mostrar lista
+            listView.setVisibility(View.VISIBLE);
+            Empty_List.setVisibility(View.GONE);
+        }
     }
 
 
-    public void Sort(String items){
 
-
-    }
-
-
-//   Collections.sort(myIntegerList, new Comparator<Integer>() {
-//        public int compare(Integer one, Integer other) {
-//            if (one >= other) {
-//                return -1;
-//            } else {
-//                return 1;
-//            }
-//        }
-//    });
-
-
-
-
-    public void setSort () {
-
-
-//        noteList.sort(new Comparator<com.example.android.securenotes.note>() {
-//            @Override
-//            public int compare(note note, note t1) {
-//                return note.toString().compareTo(t1.toString());
-//            }
-//
-//        });
-//        adapter.notifyDataSetChanged();
-//        return noteList;
-        mylist.sort(new Comparator<com.example.android.securenotes.note>() {
-            @Override
-            public int compare(note note, note t1) {
-                return note.toString().compareTo(t1.toString());
-            }
-        });
-        adapter.notifyDataSetChanged();
-
-
-
-    }
 
 
 
@@ -366,9 +290,14 @@ public class MainActivity extends AppCompatActivity {
                     i.putExtra("note", mylist.get(position).get_note().toString());
                     i.putExtra("time", mylist.get(position).get_time().toString());
                     startActivity(i);
+                    finish();
 
                 }
             });
+
+
+
+
 
 
             holder.row.setOnLongClickListener(new View.OnLongClickListener() {

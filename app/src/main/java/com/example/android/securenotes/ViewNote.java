@@ -99,9 +99,8 @@ public class ViewNote extends AppCompatActivity {
             intent.setType("*/*");
             //intent.setData(Uri.parse("mailto:"));
             //intent.putExtra(Intent.EXTRA_EMAIL, addresses);
-            intent.putExtra(Intent.EXTRA_SUBJECT, view_title.getText());
-            //intent.putExtra(Intent.EXTRA_STREAM, priceMessage);
-            intent.putExtra(Intent.EXTRA_TEXT, view_note.getText());
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Sent from Simple Notes");
+            intent.putExtra(Intent.EXTRA_TEXT,"Title  : " + view_title.getText()+"\nNote : " + view_note.getText());
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
@@ -113,8 +112,13 @@ public class ViewNote extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        super.onBackPressed();
+    }
 
-//
+    //
 
 
 }
