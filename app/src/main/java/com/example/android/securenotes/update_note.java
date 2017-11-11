@@ -40,12 +40,39 @@ public class update_note extends AppCompatActivity {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (title.getText().toString().trim().length() > 0 && note.getText().toString().trim().length() > 0) {
+                    update();
+                    finish();
+                }
+                else {
 
-                db.updateNote(new note(Integer.parseInt(note_id.getText().toString()), title.getText().toString(), note.getText().toString()));
-
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                finish();
+                }
             }
         });
+    }
+
+    public void update(){
+
+        db.updateNote(new note(Integer.parseInt(note_id.getText().toString()), title.getText().toString(), note.getText().toString()));
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (title.getText().toString().trim().length() > 0 && note.getText().toString().trim().length() > 0) {
+           update();
+//                    db.addNote(new note(title.getText().toString(), note.getText().toString(), formattedDate));
+
+            //Toast.makeText(getApplicationContext(), formattedDate, Toast.LENGTH_LONG).show();
+
+
+//                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
+        else {
+
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
+        super.onBackPressed();
     }
 }

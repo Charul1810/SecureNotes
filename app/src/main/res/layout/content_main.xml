@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#ffffff"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:visibility="invisible">
 
     </ListView>
@@ -27,14 +29,6 @@
         android:text="@string/no_notes_yet"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
-
-    <!--<ExpandableListView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="#ffffff"-->
-        <!--android:visibility="visible"-->
-        <!--&gt;</ExpandableListView>-->
 
 
 

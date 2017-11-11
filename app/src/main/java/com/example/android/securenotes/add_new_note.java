@@ -22,6 +22,7 @@ public class add_new_note extends AppCompatActivity {
     ListView listView;
     DatabaseHandler db;
     EditText time;
+    String c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,41 +35,34 @@ public class add_new_note extends AppCompatActivity {
         time = (EditText) findViewById(R.id.cre_time);
         listView = (ListView) findViewById(R.id.list_item);
         db = new DatabaseHandler(this);
-       // final String titles = title.getText().toString();
 
-
+        //  final String titles = title.getText().toString();
 
         note.addTextChangedListener(new TextWatcher() {
 
-                public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable s) {
+                //if ( (title.getText().toString().trim().length() < 25)&&(title.getText().toString().trim().isEmpty())) {
 
-                   if (title.getText().toString().isEmpty()) {
-                    String c = s.toString(); // read Content
-                    ((EditText) findViewById(title.getId())).setText(c); // copy to #2
-                    }
+                if(title.getText().toString().trim().isEmpty()) {
+                    title.setText(s);
                 }
+                //}
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-            });
-
-
-
-
-
-
+            }
+        });
 
 
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(fab1);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(title.getText().toString().trim().length()>0 && note.getText().toString().trim().length()>0) {
+                if (title.getText().toString().trim().length() > 0 && note.getText().toString().trim().length() > 0) {
                     add();
 //                    db.addNote(new note(title.getText().toString(), note.getText().toString(), formattedDate));
 
@@ -77,16 +71,15 @@ public class add_new_note extends AppCompatActivity {
 
 //                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(),"Please add note!! ",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please add note!! ", Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
     }
 
-    public void add(){
+    public void add() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         final String formattedDate = df.format(c.getTime());
@@ -104,13 +97,14 @@ public class add_new_note extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(title.getText().toString().trim().length()>0 && note.getText().toString().trim().length()>0) {
+        if (title.getText().toString().trim().length() > 0 && note.getText().toString().trim().length() > 0) {
 
             add();
             Toast.makeText(getApplicationContext(), "Note saved", Toast.LENGTH_SHORT).show();
-        }
-        else {
-       //     Toast.makeText(getApplicationContext(), "Back pressed", Toast.LENGTH_SHORT).show();
+        } else {
+
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            //     Toast.makeText(getApplicationContext(), "Back pressed", Toast.LENGTH_SHORT).show();
 
 
         }

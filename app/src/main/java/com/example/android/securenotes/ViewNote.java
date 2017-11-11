@@ -100,7 +100,7 @@ public class ViewNote extends AppCompatActivity {
             //intent.setData(Uri.parse("mailto:"));
             //intent.putExtra(Intent.EXTRA_EMAIL, addresses);
             intent.putExtra(Intent.EXTRA_SUBJECT, "Sent from Simple Notes");
-            intent.putExtra(Intent.EXTRA_TEXT,"Title  : " + view_title.getText()+"\nNote : " + view_note.getText());
+            intent.putExtra(Intent.EXTRA_TEXT,view_note.getText());
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }

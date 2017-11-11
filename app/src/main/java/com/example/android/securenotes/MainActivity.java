@@ -24,7 +24,7 @@ import java.util.List;
 
 import static com.example.android.securenotes.R.id.fab;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     EditText note_id, title, note;
     ListView listView;
     List<note> mylist;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView view_time;
     MenuItem sort;
     TextView Empty_List;
+
 
 
     @Override
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         view_time = (TextView) findViewById(R.id.view_time);
         Empty_List=(TextView) findViewById(R.id.empty_list);
         sort = (MenuItem) findViewById(R.id.sort);
+
+
 
 
         load();
@@ -130,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
+
+
         return true;
     }
 
@@ -151,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.setTitle("Info");
 
             // Setting Dialog Message
-            alertDialog.setMessage("Simple Notes created by Charul Dalvi & Niharika Singh.");
+            alertDialog.setMessage("Simple Notes created by Charul Dalvi, Zubair Khan , Arsalaan Ansari.");
 
             // Setting Icon to Dialog
             alertDialog.setIcon(R.mipmap.ic_launcher_notes_round);
@@ -203,6 +210,26 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+//        if (id==R.id.search)
+//        {
+//
+//
+//            SearchView searchView=(SearchView)item.getActionView();
+//          searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//              @Override
+//              public boolean onQueryTextSubmit(String query) {
+//                  return false;
+//              }
+//
+//              @Override
+//              public boolean onQueryTextChange(String newText) {
+//
+//
+//                  return false;
+//              }
+//          });
+//        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -232,9 +259,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
 
-
-
+    }
 
 
     class AppAdapter extends BaseAdapter {
