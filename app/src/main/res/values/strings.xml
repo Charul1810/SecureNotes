@@ -4,5 +4,10 @@
     <string name="title">Title</string>
     <string name="title_activity_view_note">View Note</string>
     <string name="no_notes_yet">No notes yet</string>
+    <string name="title_activity_main2">Simple Notes</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_add__alert">Add Alert</string>
 
 </resources>

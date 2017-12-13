@@ -36,7 +36,7 @@ public class Splash extends AppCompatActivity {
     }
     private void onLoadingDataEnded()
     {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(),Main2Activity.class));
 
         finish();
     }

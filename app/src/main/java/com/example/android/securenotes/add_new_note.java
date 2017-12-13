@@ -103,7 +103,7 @@ public class add_new_note extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Note saved", Toast.LENGTH_SHORT).show();
         } else {
 
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), Main2Activity.class));
             //     Toast.makeText(getApplicationContext(), "Back pressed", Toast.LENGTH_SHORT).show();
 
 
